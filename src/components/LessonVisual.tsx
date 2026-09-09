@@ -1,0 +1,17 @@
+import { useState } from 'react';
+import { useReducedMotion } from 'framer-motion';
+import type { Lesson } from '../data/lessons';
+import { orbitingPlanets } from '../data/planets';
+import { Icon, PlanetOrb } from './ui';
+
+export function LessonVisual({ lesson }: { lesson: Lesson }) {
+  const reducedMotion = useReducedMotion();
+  const [playing, setPlaying] = useState(!reducedMotion);
+  const [movement, setMovement] = useState('rotation');
+  const isMotion = lesson.visual === 'motion';
+  return <div className={`lesson-visual lesson-visual-${lesson.visual} ${playing ? '' : 'animation-paused'}`}>
+    {isMotion && <div className="segmented movement-tabs"><button onClick={() => setMovement('rotation')} className={movement === 'rotation' ? 'active' : ''} aria-pressed={movement === 'rotation'}>Rotasi</button><button onClick={() => setMovement('revolution')} className={movement === 'revolution' ? 'active' : ''} aria-pressed={movement === 'revolution'}>Revolusi</button></div>}
+    {isMotion && movement === 'rotation' ? <div className="rotation-demo"><div className="rotation-sun"><PlanetOrb id="sun" size={57} /><span>Matahari</span></div><div className="sunlight-rays"><span /><span /><span /></div><div className="rotating-earth"><PlanetOrb id="earth" size={124} spinning /><Icon name="rotate" size={165} className="rotation-arrow" /></div><span className="day-label">SIANG</span><span className="night-label">MALAM</span><p>Bumi berputar pada sumbunya<span>Sekitar 24 jam</span></p></div> : lesson.visual === 'system' || (isMotion && movement === 'revolution') ? <div className="revolution-demo"><div className="demo-orbit" /><div className="demo-sun"><PlanetOrb id="sun" size={72} /></div><div className="demo-traveler"><PlanetOrb id="earth" size={42} /><span>Bumi</span></div><p>{isMotion ? 'Bumi mengelilingi Matahari' : 'Planet mengorbit Matahari'}<span>{isMotion ? 'Sekitar 365 seperempat hari' : 'Gaya gravitasi menjaga planet pada orbitnya'}</span></p></div> : lesson.visual === 'sun' ? <div className="sun-demo"><div className="sun-demo-rays" /><PlanetOrb id="sun" size={130} /><p>Menghasilkan cahaya dan panas sendiri<span>Matahari adalah bintang</span></p></div> : lesson.visual === 'planets' || lesson.visual === 'order' ? <div className="planet-line-demo">{orbitingPlanets.map((planet) => <div key={planet.id}><PlanetOrb id={planet.id} size={planet.order > 4 ? 42 : 29} /><span>{planet.name}</span>{lesson.visual === 'order' && <small>{planet.order}</small>}</div>)}</div> : lesson.visual === 'compare' ? <div className="compare-demo"><div><PlanetOrb id="mercury" size={42} /><strong>Merkurius</strong><span>Planet terkecil</span></div><div><PlanetOrb id="jupiter" size={124} /><strong>Jupiter</strong><span>Planet terbesar</span></div></div> : <div className="objects-demo"><div><div className="moon-illustration" /><strong>Bulan</strong><span>Satelit alami</span></div><div><div className="asteroid-illustration" /><strong>Asteroid</strong><span>Benda berbatu</span></div><div><div className="comet-illustration" /><strong>Komet</strong><span>Mengandung es dan debu</span></div></div>}
+    <div className="lesson-visual-bottom"><span>Ilustrasi pembelajaran, tidak berskala.</span><button className="icon-button" aria-label={playing ? 'Jeda animasi materi' : 'Putar animasi materi'} onClick={() => setPlaying(!playing)} disabled={!!reducedMotion}><Icon name={playing ? 'pause' : 'play'} size={16} /></button></div>
+  </div>;
+}
