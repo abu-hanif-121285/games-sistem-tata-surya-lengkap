@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss(), viteSingleFile()],
-  base:"/games-tata-surya-lengkap/",
+  base:"/games-sistem-tata-surya-lengkap/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
