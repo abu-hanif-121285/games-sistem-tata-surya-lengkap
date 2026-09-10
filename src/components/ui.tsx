@@ -36,7 +36,7 @@ export function PlanetOrb({ id, size = 64, spinning = false, className = '' }: {
 }
 
 export function Astronaut({ className = '', small = false }: { className?: string; small?: boolean }) {
-  return <img src="/images/astronaut.png" alt={small ? '' : 'Astro, pemandu astronaut ramah'} className={`astronaut ${small ? 'astronaut-small' : ''} ${className}`} draggable={false} />;
+  return <img src={`${import.meta.env.BASE_URL}images/astronaut.png`} alt={small ? '' : 'Astro, pemandu astronaut ramah'} className={`astronaut ${small ? 'astronaut-small' : ''} ${className}`} draggable={false} />;
 }
 
 export function ProgressBar({ value, label, className = '' }: { value: number; label: string; className?: string }) {
